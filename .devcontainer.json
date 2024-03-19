@@ -1,0 +1,5 @@
+"features": {
+    "ghcr.io/prulloac/devcontainer-features/latex:1": {
+      "scheme":"full"
+    }
+}
