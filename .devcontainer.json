@@ -1,5 +1,3 @@
-"features": {
-    "ghcr.io/prulloac/devcontainer-features/latex:1": {
-      "scheme":"full"
-    }
+{
+    "image": "texlive/texlive:latest-full-doc"
 }
