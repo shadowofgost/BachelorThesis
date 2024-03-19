@@ -1,7 +1,7 @@
 {
 "features": {
-    "ghcr.io/prulloac/devcontainer-features/latex:latest": {
-        "scheme":"full"
+    "ghcr.io/devcontainers-contrib/features/apt-packages:latest": {
+        "packages":"texlive-full"
     }
-    } 
+}
 }
