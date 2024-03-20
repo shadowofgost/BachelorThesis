@@ -1,103 +1,92 @@
 {
+    //%*****************************配置编译语言*********************************%//
+    "latex-workshop.showContextMenu": true, //启用上下文LaTeX菜单
+    "latex-workshop.latex.autoBuild.run": "never", //手动编译
+    "latex-workshop.message.error.show": false,
+    "latex-workshop.message.warning.show": false,
+    "latex-workshop.intellisense.package.enabled": true, //根据加载的包，自动完成命令或包
     "latex-workshop.latex.recipes": [
         {
-            "name": "latexmk (xelatex)",
+            "name": "xelatex",
             "tools": [
-                "unpack-thuthesis",
-                "xelatexmk"
+                "xelatex"
             ]
         },
         {
-            "name": "latexmk (lualatex)",
+            "name": "xelatex ->bibtex -> xelatex*2",
             "tools": [
-                "unpack-thuthesis",
-                "lualatexmk"
+                "xelatex",
+                "bibtex",
+                "xelatex",
+                "xelatex"
             ]
         },
         {
-            "name": "make thesis",
+            "name": "pdflatex",
             "tools": [
-                "make-thesis"
+                "pdflatex"
             ]
         }
     ],
     "latex-workshop.latex.tools": [
         {
-            "name": "unpack-thuthesis",
-            "command": "xetex",
+            "name": "xelatex",
+            "command": "xelatex",
             "args": [
-                "-file-line-error",
-                "-halt-on-error",
-                "-interaction=nonstopmode",
-                "thuthesis.ins"
-            ],
-            "env": {}
-        },
-        {
-            "name": "xelatexmk",
-            "command": "latexmk",
-            "args": [
-                "-xelatex",
-                "-file-line-error",
-                "-halt-on-error",
-                "-interaction=nonstopmode",
+                "-shell-escape",
                 "-synctex=1",
-                "-outdir=%OUTDIR%",
-                "%DOC%"
-            ],
-            "env": {}
-        },
-        {
-            "name": "lualatexmk",
-            "command": "latexmk",
-            "args": [
-                "-lualatex",
-                "-file-line-error",
-                "-halt-on-error",
                 "-interaction=nonstopmode",
-                "-synctex=1",
-                "-outdir=%OUTDIR%",
+                "-file-line-error",
                 "%DOC%"
-            ],
-            "env": {}
+            ]
         },
         {
-            "name": "make-thesis",
-            "command": "make",
-            "args": [],
-            "env": {}
+            "name": "pdflatex",
+            "command": "pdflatex",
+            "args": [
+                "-shell-escape",
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "bibtex",
+            "command": "bibtex",
+            "args": [
+                "%DOCFILE%"
+            ]
         }
     ],
-    "latex-workshop.latex.watch.files.ignore": [
-        "**/thuthesis.cls",
-        "**/*.bbx",
-        "**/*.bbl",
-        "**/*.cbx",
-        "**/*.cfg",
-        "**/*.clo",
-        "**/*.cnf",
-        "**/*.def",
-        "**/*.dfu",
-        "**/*.enc",
-        "**/*.fd",
-        "**/*.fmt",
-        "**/*.lbx",
-        "**/*.map",
-        "**/*.mkii",
-        "**/*.pfb",
-        "**/*.tfm",
-        "**/*.vf",
-        "**/*.code.tex",
-        "**/*.sty",
-        "**/texmf-{dist,var}/**",
-        "**/Local/MiKTeX/**",
-        "**/Local/Programs/MiKTeX/**",
-        "**/Roaming/MiKTeX/**",
-        "**/Program*/MiKTeX*/**",
-        "**/.miktex/texmfs/**",
-        "/var/cache/miktex-texmf/**",
-        "/usr/local/share/miktex-texmf/**",
-        "**/Library/Application Support/MiKTeX/texmfs/**",
-        "/dev/null"
-    ]
+    // 清除辅助文件
+    "latex-workshop.latex.clean.fileTypes": [
+        "*.aux",
+        "*.bbl",
+        "*.blg",
+        "*.idx",
+        "*.ind",
+        "*.lof",
+        "*.lot",
+        "*.out",
+        "*.toc",
+        "*.acn",
+        "*.acr",
+        "*.alg",
+        "*.glg",
+        "*.glo",
+        "*.gls",
+        "*.ist",
+        "*.fls",
+        "*.log",
+        "*.fdb_latexmk"
+    ],
+    "latex-workshop.latex.autoClean.run": "onFailed",
+    //%*****************************配置正反搜索*********************************%//
+    "latex-workshop.view.pdf.external.synctex.args": [
+        "-forward-search",
+        "%TEX%",
+        "%LINE%",
+        "%PDF%",
+    ],
 }
