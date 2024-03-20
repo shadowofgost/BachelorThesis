@@ -1,7 +1,6 @@
 {
 "features": {
     "ghcr.io/devcontainers-contrib/features/apt-packages:latest": {
-        "packages":"texlive-full"
     }
 }
 }
