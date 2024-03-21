@@ -1,6 +1,3 @@
 {
-"features": {
-    "ghcr.io/devcontainers-contrib/features/apt-packages:latest": {
-    }
-}
+"image":"Debian:12"
 }
