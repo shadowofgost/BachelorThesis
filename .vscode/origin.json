@@ -3,14 +3,12 @@
         {
             "name": "latexmk (xelatex)",
             "tools": [
-                "unpack-thuthesis",
                 "xelatexmk"
             ]
         },
         {
             "name": "latexmk (lualatex)",
             "tools": [
-                "unpack-thuthesis",
                 "lualatexmk"
             ]
         },
@@ -22,17 +20,6 @@
         }
     ],
     "latex-workshop.latex.tools": [
-        {
-            "name": "unpack-thuthesis",
-            "command": "xetex",
-            "args": [
-                "-file-line-error",
-                "-halt-on-error",
-                "-interaction=nonstopmode",
-                "thuthesis.ins"
-            ],
-            "env": {}
-        },
         {
             "name": "xelatexmk",
             "command": "latexmk",
@@ -69,7 +56,7 @@
         }
     ],
     "latex-workshop.latex.watch.files.ignore": [
-        "**/thuthesis.cls",
+        "**/sudathesis.cls",
         "**/*.bbx",
         "**/*.bbl",
         "**/*.cbx",
