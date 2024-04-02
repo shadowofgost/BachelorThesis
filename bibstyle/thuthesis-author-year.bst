@@ -95,9 +95,9 @@ FUNCTION {load.config}
   #0 'show.note :=
   #0 'show.english.translation :=
   #1 'end.with.period :=
-  #1 'lang.zh.order :=
+  #2 'lang.zh.order :=
   #2 'lang.ja.order :=
-  #3 'lang.en.order :=
+  #1 'lang.en.order :=
   #4 'lang.ru.order :=
   #5 'lang.other.order :=
 }
@@ -2335,7 +2335,7 @@ FUNCTION {calc.label}
 }
 
 FUNCTION {sort.language.label}
-{ entry.lang lang.zh =
+{ entry.lang lang.zh  =
     { lang.zh.order }
     { entry.lang lang.ja =
         { lang.ja.order }

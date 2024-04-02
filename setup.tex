@@ -177,20 +177,22 @@
 %\bibliographystyle{./bibstyle/thuthesis-numeric}
 
 % 著者-出版年制
-% \usepackage{natbib}
-% \bibliographystyle{./bibstyle/thuthesis-author-year}
-
+\usepackage[sort]{natbib}
+\bibliographystyle{./bibstyle/thuthesis-author-year}
+\thusetup{
+  cite-style = super,
+}
 % 本科生参考文献的著录格式
 %\usepackage[sort]{natbib}
 %\bibliographystyle{./bibstyle/thuthesis-bachelor}
 
 % 参考文献使用 BibLaTeX 宏包
-\usepackage[style=./bibstyle/thuthesis-numeric]{biblatex}
+% \usepackage[style=./bibstyle/thuthesis-numeric]{biblatex}
 % \usepackage[style=./bibstyle/thuthesis-author-year]{biblatex}
 % \usepackage[style=apa]{biblatex}
 % \usepackage[style=mla-new]{biblatex}
 % 声明 BibLaTeX 的数据库
-\addbibresource{reference/AccountThesis.bib}
+% \addbibresource{reference/AccountThesis.bib}
 
 % 定义所有的图片文件在 figures 子目录下
 \graphicspath{{figures/}}

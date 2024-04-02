@@ -73,8 +73,8 @@
 % 插图和附表清单
 % 本科生的插图索引和表格索引需要移至正文之后、参考文献前
 % \listoffiguresandtables  % 插图和附表清单（仅限研究生）
-\listoffigures           % 插图清单
-\listoftables            % 附表清单
+%\listoffigures           % 插图清单
+%\listoftables            % 附表清单
 
 % 符号对照表
 % \input{contents/denotation}
@@ -97,14 +97,14 @@
 % 其他部分
 \backmatter
 % 参考文献
-%\bibliography{reference/AccountThesis}  % 参考文献使用 BibTeX 编译(本科生)
+\bibliography{reference/AccountThesis}  % 参考文献使用 BibTeX 编译(本科生)
 
 % 研究生引入参考文献使用此版本
 %\begin{kai}
 %\bibliography{reference/refs}
 %\end{kai}
 
-\printbibliography       % 参考文献使用 BibLaTeX 编译
+% \printbibliography       % 参考文献使用 BibLaTeX 编译
 
 
 %\chapter{附录}
@@ -123,7 +123,7 @@
 %\includepdf[addtotoc={1,chapter,1,文献综述,cc,2,section,2,测试,aa},pages={1,2,3}]{./figures/statement.pdf}
 
 % 本科生需要将附录放到声明之后，个人简历之前
-\appendix
+% \appendix
 % \input{contents/appendix-survey}       % 本科生：外文资料的调研阅读报告
 % \input{contents/appendix-translation}  % 本科生：外文资料的书面翻译
 % TODO！本科生启用appendix请勿启用参考文献section，会出现报错，硕博请自行评估是否需要来启用

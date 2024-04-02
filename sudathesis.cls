@@ -4,7 +4,7 @@
 %% @Description      :
 %% @Email            : shadowofgost@outlook.com
 %% @FilePath         : /sudathesis-soochow-university-latex-template/sudathesis.cls
-%% @LastTime         : 2023-12-25 19:00:44
+%% @LastTime         : 2024-04-02 17:49:55
 %% @LastAuthor       : Albert Wang
 %% @Software         : Vscode
 %% @ Copyright Notice : Copyright (c) 2023 Albert Wang 王子睿, All Rights Reserved.
@@ -15,11 +15,11 @@
 %%
 %% The original source files were:
 %%
-%% thuthesis.dtx  (with options: `cls')
+%% sudathesis.dtx  (with options: `cls')
 %%
 %% This is a generated file.
 %%
-%% Copyright (C) 2005-2023 by Tsinghua University TUNA Association <tuna@tsinghua.edu.cn>
+%% Copyright (C) 2005-2024 by Tsinghua University TUNA Association <tuna@tsinghua.edu.cn>
 %%
 %% This work may be distributed and/or modified under the
 %% conditions of the LaTeX Project Public License, either version 1.3c
@@ -32,15 +32,20 @@
 %% To produce the documentation run the original source files ending with `.dtx'
 %% through LaTeX.
 %%
+%%% TODO 以下被suda替换
 \NeedsTeXFormat{LaTeX2e}[2017/04/15]
 \ProvidesClass{sudathesis}
-[2023/05/17 2.1.0 Soochow University Thesis Template]
+[2023/05/17 2.2.0 Soochow University Thesis Template]
 \newcommand\thu@error[1]{%
   \ClassError{sudathesis}{#1}{}%
 }
 \newcommand\thu@warning[1]{%
   \ClassWarning{sudathesis}{#1}%
 }
+\newcommand\thu@debug[1]{%
+  \typeout{Package sudathesis Info: #1}%
+}
+%%% TODO:以上是suda替换更改
 \newcommand\thu@patch@error[1]{%
   \thu@error{Failed to patch command \protect#1}%
 }
@@ -68,8 +73,10 @@
   \InputIfFileExists{thuthesis-log-test-config.tex}{}{}
 }
 \hyphenation{Thu-Thesis}
+%%% TODO以下被更改
 \def\sudathesis{ThuThesis}
-\def\version{2.1.0}
+\def\version{2.2.0}
+%%%  TODO：以上被更改
 \RequirePackage{kvdefinekeys}
 \RequirePackage{kvsetkeys}
 \RequirePackage{kvoptions}
@@ -214,6 +221,7 @@
     choices = {
       auto,
       windows,
+      windows-local,
       mac,
       mac-word,
       noto,
@@ -221,6 +229,10 @@
       none,
     },
     default = auto,
+  },
+  windows-font-dir = {
+    name = windows@font@dir,
+    default = {.},
   },
   math-font = {
     name = math@font,
@@ -299,6 +311,7 @@
     },
     default = print,
   },
+  %%% TODO以下被更改
   print-style = {
     name=book@printstyle,
     choices = {
@@ -315,6 +328,7 @@
     },
     default = science,
   },
+  %%% TODO：以上被更改
 }
 \newif\ifthu@degree@graduate
 \newcommand\thu@set@graduate{%
@@ -340,11 +354,13 @@
 \else
   \PassOptionsToClass{openany}{book}
 \fi
+%%% TODO：以下被额外添加
 \ifthu@book@printstyle@oneside
   \PassOptionsToClass{oneside}{book}
 \else
   \PassOptionsToClass{twoside}{book}
 \fi
+%%% TODO：以上被额外添加
 \PassOptionsToPackage{no-math}{fontspec}
 \LoadClass[a4paper,UTF8,zihao=-4,scheme=plain,fontset=none]{ctexbook}[2017/04/01]
 \RequirePackage{etoolbox}
@@ -439,6 +455,7 @@
   marginparwidth = 2cm,
   marginparsep   = 0.5cm,
 }
+%%% TODO:以下被更改
 \newcommand\thu@set@geometry{%
   \ifthu@degree@bachelor
     \geometry{
@@ -482,6 +499,7 @@
     \fi
   \fi
 }
+%%% TODO 以上被更改（\newcommand)
 \thu@set@geometry
 \thu@option@hook{degree}{\thu@set@geometry}
 \thu@option@hook{output}{\thu@set@geometry}
@@ -660,7 +678,7 @@
 \thu@set@punctuations
 \thu@option@hook{language}{\thu@set@punctuations}
 \renewcommand\normalsize{%
-  \@setfontsize\normalsize{12bp}{23.4bp}%
+  \@setfontsize\normalsize{12bp}{23.4bp}%% TODO:此处被更改
   \abovedisplayskip 6bp%
   \abovedisplayshortskip 6bp%
   \belowdisplayshortskip 6bp%
@@ -689,6 +707,7 @@
 \thu@def@fontsize{xiaoliu}{6.5bp}
 \thu@def@fontsize{qihao}{5.5bp}
 \thu@def@fontsize{bahao}{5bp}
+%%% TODO：以下被更改
 \ifthu@system@auto
   \IfFileExists{./fonts/simsun.ttc}{
     \thusetup{system = windows}
@@ -707,10 +726,13 @@
       }
     }
   }
+  \thu@debug{Detected system: \thu@system}
 \fi
-\newcommand\thu@mac@word@font@path{%
-  /Applications/Microsoft Word.app/Contents/Resources/DFonts/%
+%%% TODO 以上被更改
+\newcommand\thu@mac@word@font@dir{%
+  /Applications/Microsoft Word.app/Contents/Resources/DFonts%
 }
+%%% TODO：以下被更改
 \ifthu@fontset@auto
   \ifthu@system@windows
     \thusetup{fontset = windows}
@@ -721,23 +743,29 @@
       \IfFontExistsTF{SimSun}{
         \thusetup{fontset = windows}
       }{
-        \IfFileExists{\thu@mac@word@font@path/SimSun.ttf}{
-          \thusetup{fontset = windows}
+        \IfFileExists{\thu@windows@font@dir/Simsun.ttc}{
+          \thusetup{fontset = windows, cjk-font = windows-local}
         }{
-          \ifthu@system@mac
-            \thusetup{fontset = mac}
-          \else
-            \IfFontExistsTF{Noto Serif CJK SC}{
-              \thusetup{fontset = ubuntu}
-            }{
-              \thusetup{fontset = fandol}
-            }
-          \fi
+          \IfFileExists{\thu@mac@word@font@dir/Simsun.ttc}{
+            \thusetup{fontset = windows, cjk-font = mac-word}
+          }{
+            \ifthu@system@mac
+              \thusetup{fontset = mac}
+            \else
+              \IfFontExistsTF{Noto Serif CJK SC}{
+                \thusetup{fontset = ubuntu}
+              }{
+                \thusetup{fontset = fandol}
+              }
+            \fi
+          }
         }
       }
     }
   \fi
+  \thu@debug{Detected fontset: \thu@fontset}
 \fi
+%%% TODO 以上被更改
 \newcommand\thu@set@font{%
   \@nameuse{thu@set@font@\thu@font}%
 }
@@ -943,11 +971,7 @@
 \newcommand\thu@set@font@newtx{%
   \RequirePackage{newtxtext}%
 }
-\ExplSyntaxOn
-\@ifpackageloaded { xeCJK }
-  { \msg_redirect_name:nnn { fontspec } { no-script } { info } }
-  { }
-\ExplSyntaxOff
+%%% TODO：以下被更改
 \ifthu@cjk@font@auto
   \ifthu@fontset@mac
     \thusetup{cjk-font = mac}
@@ -959,10 +983,14 @@
         \IfFontExistsTF{SimSun}{
           \thusetup{cjk-font = windows}
         }{
-          \IfFileExists{\thu@mac@word@font@path/SimSun.ttf}{
-            \thusetup{cjk-font = mac-word}
+          \IfFileExists{\thu@windows@font@dir/Simsun.ttc}{
+            \thusetup{cjk-font = windows-local}
           }{
-            \thu@error{Cannot find "SimSun" font}
+            \IfFileExists{\thu@mac@word@font@dir/Simsun.ttc}{
+              \thusetup{cjk-font = mac-word}
+            }{
+              \thu@error{Cannot find "SimSun" font}
+            }
           }
         }
       }
@@ -974,8 +1002,11 @@
       \fi
     \fi
   \fi
+  \thu@debug{Detected CJK font: \thu@cjk@font}
 \fi
+%%% TODO：以上被更改
 \newfontfamily\zititime{Times New Roman}%TODO: 主要是标记此处更改，添加Times New Roman的宏语言
+%%%% TODO：以下被更改
 \newcommand\thu@set@cjk@font@windows{%
   \setCJKmainfont[
     AutoFakeBold = 3,
@@ -989,29 +1020,71 @@
   \setCJKfamilyfont{zhkai}[AutoFakeBold = 3,Path=fonts/]{simkai.ttf}%
   \setCJKfamilyfont{zhfs}[AutoFakeBold = 3,Path=fonts/]{simfang.ttf}%
 }
-\@namedef{thu@set@cjk@font@mac-word}{%
-  \setCJKmainfont{SimSun}[%
-    Path         = \thu@mac@word@font@path,
-    AutoFakeBold = 3,
-    ItalicFont   = KaiTi,
-  ]%
+%%% TODO 以上被更改，做了本地化的设置
+\@namedef{thu@set@cjk@font@windows-local}{%
+  \IfFileExists{\thu@windows@font@dir/Kaiti.ttf}{
+    \setCJKmainfont{SimSun}[%
+      Path         = \thu@windows@font@dir/,
+      Extension    = .ttc,
+      AutoFakeBold = 3,
+      ItalicFont   = Kaiti,
+      ItalicFeatures = {Extension = .ttf},
+    ]%
+    \setCJKmonofont{Fangsong}[
+      Path         = \thu@windows@font@dir/,
+      Extension    = .ttf,
+    ]%
+    \setCJKfamilyfont{zhkai}{Kaiti}[
+      Path         = \thu@windows@font@dir/,
+      Extension    = .ttf,
+    ]%
+    \setCJKfamilyfont{zhfs}{Fangsong}[
+      Path         = \thu@windows@font@dir/,
+      Extension    = .ttf,
+    ]%
+  }{
+    \setCJKmainfont{SimSun}[%
+      Path         = \thu@windows@font@dir/,
+      Extension    = .ttc,
+      AutoFakeBold = 3,
+      ItalicFont   = Simkai,
+      ItalicFeatures = {Extension = .ttf},
+    ]%
+    \setCJKmonofont{Simfang}[
+      Path         = \thu@windows@font@dir/,
+      Extension    = .ttf,
+    ]%
+    \setCJKfamilyfont{zhkai}{Simkai}[
+      Path         = \thu@windows@font@dir/,
+      Extension    = .ttf,
+    ]%
+    \setCJKfamilyfont{zhfs}{Simfang}[
+      Path         = \thu@windows@font@dir/,
+      Extension    = .ttf,
+    ]%
+  }
   \setCJKsansfont{SimHei}[%
-    Path         = \thu@mac@word@font@path,
+    Path         = \thu@windows@font@dir/,
+    Extension    = .ttf,
     AutoFakeBold = 3,
   ]%
-  \setCJKmonofont{FangSong}[Path=\thu@mac@word@font@path]%
   \setCJKfamilyfont{zhsong}{SimSun}[%
-    Path         = \thu@mac@word@font@path,
+    Path         = \thu@windows@font@dir/,
+    Extension    = .ttc,
     AutoFakeBold = 3,
   ]%
   \setCJKfamilyfont{zhhei}{SimHei}[%
-    Path         = \thu@mac@word@font@path,
+    Path         = \thu@windows@font@dir/,
+    Extension    = .ttf,
     AutoFakeBold = 3,
   ]%
-  \setCJKfamilyfont{zhkai}{KaiTi}[Path = \thu@mac@word@font@path]%
-  \setCJKfamilyfont{zhfs}{FangSong}[Path = \thu@mac@word@font@path]%
+}
+\@namedef{thu@set@cjk@font@mac-word}{%
+  \let\thu@windows@font@dir\thu@mac@word@font@dir
+  \@nameuse{thu@set@cjk@font@windows-local}%
 }
 \newcommand\thu@set@cjk@font@mac{%
+  \defaultCJKfontfeatures{}%
   \setCJKmainfont{Songti SC}[
     UprightFont    = * Light,
     BoldFont       = * Bold,
@@ -1043,19 +1116,30 @@
   ]%
 }
 \newcommand\thu@set@cjk@font@noto{%
+  \defaultCJKfontfeatures{}%
   \setCJKmainfont{Noto Serif CJK SC}[
     UprightFont    = * Light,
     BoldFont       = * Bold,
     ItalicFont     = FandolKai-Regular,
     ItalicFeatures = {Extension = .otf},
+    Script         = CJK,
   ]%
-  \setCJKsansfont{Noto Sans CJK SC}[BoldFont = * Medium]%
-  \setCJKmonofont{Noto Sans Mono CJK SC}%
+  \setCJKsansfont{Noto Sans CJK SC}[
+    BoldFont       = * Medium,
+    Script         = CJK,
+  ]%
+  \setCJKmonofont{Noto Sans Mono CJK SC}[
+    Script         = CJK,
+  ]%
   \setCJKfamilyfont{zhsong}{Noto Serif CJK SC}[
     UprightFont    = * Light,
     UprightFont    = * Bold,
+    Script         = CJK,
   ]%
-  \setCJKfamilyfont{zhhei}{Noto Sans CJK SC}[BoldFont = * Medium]%
+  \setCJKfamilyfont{zhhei}{Noto Sans CJK SC}[
+    BoldFont       = * Medium,
+    Script         = CJK,
+  ]%
   \setCJKfamilyfont{zhfs}{FandolFang}[
     Extension      = .otf,
     UprightFont    = *-Regular,
@@ -1066,6 +1150,7 @@
   ]%
 }
 \newcommand\thu@set@cjk@font@fandol{%
+  \defaultCJKfontfeatures{}%
   \setCJKmainfont{FandolSong}[
     Extension   = .otf,
     UprightFont = *-Regular,
@@ -1105,8 +1190,7 @@
   \providecommand\songti{\CJKfamily{zhsong}}
   \providecommand\heiti{\CJKfamily{zhhei}}
   \providecommand\fangsong{\CJKfamily{zhfs}}
-  \providecommand\kaiti{\CJKfamily{zhkai}}
-  \newcommand{\kai}{\CJKfamily{zhkai}}
+  \providecommand\kaishu{\CJKfamily{zhkai}}
 \fi
 \newcommand\thu@set@cjk@font{%
   \@nameuse{thu@set@cjk@font@\thu@cjk@font}%
@@ -1475,6 +1559,7 @@
     \fi
   \fi
 }
+%%% TODO：以下被更改
 \renewcommand\frontmatter{%
   \cleardoublepage
   \@mainmatterfalse
@@ -1484,6 +1569,7 @@
     \pagenumbering{Roman}%
   \fi
 }
+%%%% TODO：以上做了更改
 \renewcommand\mainmatter{%
   \cleardoublepage
   \@mainmattertrue
@@ -1498,9 +1584,10 @@
   \fi
   \@mainmatterfalse
   \thu@backmattertrue
-  \thusetup{toc-depth = 1}%
+  \thusetup{toc-depth = 1}%%% TODO：此处被更改
 }
 \pagestyle{fancy}
+%%% TODO：以下被更改
 \fancypagestyle{cnfrontmatter}{
   \fancyhf{}
   \renewcommand\headrulewidth{0.75bp}%
@@ -1557,6 +1644,8 @@
   \let\@mkboth\markboth
   \let\sectionmark\@gobble
 }
+%%%TODO： 以上被额外添加进系统
+%%% TODO：以下被更改
 \fancypagestyle{plain}{%
   \fancyhf{}%
   \renewcommand\footrulewidth{0pt}%
@@ -1617,6 +1706,7 @@
   \fi
   \let\sectionmark\@gobble
 }
+%%% TODO以上被更改
 \pagestyle{plain}
 \def\ps@chapter{}
 \ctexset{chapter/pagestyle = chapter}
@@ -1754,26 +1844,26 @@
 \patchcmd{\@addtocurcol}%
   {\vskip \intextsep}%
   {\edef\save@first@penalty{\the\lastpenalty}\unpenalty
-  \ifnum \lastpenalty = \@M  % hopefully the OR penalty
-    \unpenalty
-  \else
-    \penalty \save@first@penalty \relax % put it back
-  \fi
-  \ifnum\outputpenalty <-\@Mii
-    \addvspace\intextsep
-    \vskip\parskip
-  \else
-    \addvspace\intextsep
-  \fi}%
+   \ifnum \lastpenalty = \@M  % hopefully the OR penalty
+     \unpenalty
+   \else
+     \penalty \save@first@penalty \relax % put it back
+   \fi
+   \ifnum\outputpenalty <-\@Mii
+     \addvspace\intextsep
+     \vskip\parskip
+   \else
+     \addvspace\intextsep
+   \fi}%
   {}{\thu@patch@error{\@addtocurcol}}
 \patchcmd{\@addtocurcol}%
   {\vskip\intextsep \ifnum\outputpenalty <-\@Mii \vskip -\parskip\fi}%
   {\ifnum\outputpenalty <-\@Mii
-    \aftergroup\vskip\aftergroup\intextsep
-    \aftergroup\nointerlineskip
-  \else
-    \vskip\intextsep
-  \fi}%
+     \aftergroup\vskip\aftergroup\intextsep
+     \aftergroup\nointerlineskip
+   \else
+     \vskip\intextsep
+   \fi}%
   {}{\thu@patch@error{\@addtocurcol}}
 \patchcmd{\@getpen}{\@M}{\@Mi}
   {}{\thu@patch@error{\@getpen}}
@@ -1877,6 +1967,7 @@
 \AtEndOfPackageFile*{threeparttable}{
   \g@addto@macro\TPT@defaults{\wuhao}
 }
+%%% TODO：以下被更改
 \ifthu@degree@bachelor
   \newcommand{\thu@abstract@name}{摘\quad 要}
   \newcommand{\thu@yingyan@name}{引\quad 言}
@@ -1885,6 +1976,7 @@
   \newcommand{\thu@abstract@name}{摘\quad 要}
   \newcommand{\thu@abstract@name@en}{Abstract}
 \fi
+%%% TODO：以上部分被做了修改
 \ctexset{%
   chapter = {
     nameformat   = {},
@@ -1907,6 +1999,7 @@
   paragraph/afterindent = true,
   subparagraph/afterindent = true,
 }
+%%% TODO：以下被更改
 \newcommand\thu@set@section@format{%
   \ifthu@degree@bachelor
     \ctexset{%
@@ -1972,33 +2065,33 @@
       }%
     \fi
   \else
-    \ctexset{%
-      chapter = {
-        format     = \centering\sffamily\zititime\fontsize{18bp}{35.1bp}\selectfont,
-        aftername  = \quad,
-        beforeskip = 17.55bp,
-        afterskip  = 17.55bp,
-      },
-      section = {
-        format     = \sffamily\zititime\fontsize{14bp}{27.3bp}\selectfont,
-        aftername  = \quad,
-        beforeskip = 13.65bp,
-        afterskip  = 13.65bp,
-      },
-      subsection = {
-        format     = \kaiti\zititime\fontsize{12bp}{23.4bp}\selectfont,
-        aftername  = \quad,
-        beforeskip = 11.7bp,
-        afterskip  = 11.7bp,
-      },
-      subsubsection = {
-        format     = \sffamily\zititime\fontsize{12bp}{23.4bp}\selectfont,
-        aftername  = \quad,
-        beforeskip = 11.7bp,
-        afterskip  = 11.7bp,
-      },
-    }%
     \ifthu@main@language@chinese
+      \ctexset{%
+        chapter = {
+          format     = \centering\sffamily\zititime\fontsize{18bp}{35.1bp}\selectfont,
+          aftername  = \quad,
+          beforeskip = 17.55bp,
+          afterskip  = 17.55bp,
+        },
+        section = {
+          format     = \sffamily\zititime\fontsize{14bp}{27.3bp}\selectfont,
+          aftername  = \quad,
+          beforeskip = 13.65bp,
+          afterskip  = 13.65bp,
+        },
+        subsection = {
+          format     = \kaiti\zititime\fontsize{12bp}{23.4bp}\selectfont,
+          aftername  = \quad,
+          beforeskip = 11.7bp,
+          afterskip  = 11.7bp,
+        },
+        subsubsection = {
+          format     = \sffamily\zititime\fontsize{12bp}{23.4bp}\selectfont,
+          aftername  = \quad,
+          beforeskip = 11.7bp,
+          afterskip  = 11.7bp,
+        },
+      }%
       \ifthu@book@sequencestyle@science
         \ctexset{
           chapter = {
@@ -2027,15 +2120,40 @@
         }%
       \fi
     \else
-      \ctexset{
+      \ctexset{%
         chapter = {
-          name   = \chaptername\space,
-          number = \thu@english@number{chapter},
+          format      = \centering\sffamily\bfseries\fontsize{18bp}{35.1bp}\selectfont,
+          nameformat  = \MakeUppercase,
+          titleformat = \MakeUppercase,
+          name        = \chaptername\space,
+          aftername   = \space,
+          number     = \thechapter,
+          beforeskip = 17.55bp,
+          afterskip  = 17.55bp,
+        },
+        section = {
+          format     = \sffamily\bfseries\fontsize{14bp}{27.3bp}\selectfont,
+          aftername  = \space,
+          beforeskip = 13.65bp,
+          afterskip  = 13.65bp,
+        },
+        subsection = {
+          format     = \sffamily\bfseries\fontsize{12bp}{23.4bp}\selectfont,
+          aftername  = \space,
+          beforeskip = 11.7bp,
+          afterskip  = 11.7bp,
+        },
+        subsubsection = {
+          format     = \sffamily\bfseries\fontsize{12bp}{23.4bp}\selectfont,
+          aftername  = \space,
+          beforeskip = 11.7bp,
+          afterskip  = 11.7bp,
         },
       }%
     \fi
   \fi
 }
+%%% TODO：以上部分被修改
 \thu@set@section@format
 \thu@option@hook{degree}{\thu@set@section@format}
 \thu@option@hook{main-language}{\thu@set@section@format}
@@ -2106,6 +2224,7 @@
   \fi
   \@starttoc{toc}%
 }
+%%% TODO：以下部分被更改
 \thu@define@key{
   toc-chapter-style = {
     name = toc@chapter@style,
@@ -2116,6 +2235,8 @@
     default = times,
   },
 }
+%%% TODO：以上部分被更改
+%%% TODO：以下部分被更改
 \newcommand\thu@leaders{\titlerule*[4bp]{.}}
 \newcommand\thu@set@toc@format{%
   \contentsmargin{\z@}%
@@ -2179,6 +2300,7 @@
     \fi
   \fi
 }
+%%% TODO：以上部分被更改
 \thu@set@toc@format
 \thu@option@hook{degree}{\thu@set@toc@format}
 \thu@option@hook{main-language}{\thu@set@toc@format}
@@ -2196,6 +2318,7 @@
     default = {Title},
     name    = title@en,
   },
+  %%% TODO：以下部分被更改
   subtitle = {
     default = {副标题},
   },
@@ -2203,6 +2326,7 @@
     default = {SubTitle},
     name    = subtitle@en,
   },
+  %%% TODO：以上部分被更改
   author = {
     default = {姓名},
   },
@@ -2265,10 +2389,12 @@
   department = {
     default = {计算机科学与技术系},
   },
+  %%% TODO：以下为更改
   department* = {
     default = {Computer Science and Technology Department},
     name = department@en,
   },
+  %%% TODO：以上为更改
   discipline = {
     % default = {计算机科学与技术},
   },
@@ -2304,6 +2430,7 @@
   engineering-field* = {
     name    = engineering@field@en,
   },
+  %%% TODO：以下为更改
   discipline-direct = {
     % default = {计算机科学与技术},
     name    = discipline@direct,
@@ -2312,6 +2439,7 @@
     % default = {计算机科学与技术},
     name    = discipline@direct@en,
   },
+  %%% TODO：以上为更改
   date = {
     default = {\the\year-\two@digits{\month}-\two@digits{\day}},
   },
@@ -2407,19 +2535,8 @@
   \stepcounter{thu@csl@count}%
 }
 \newcommand\thu@name@title@format[2]{%
-  \ifthu@degree@type@professional
-    % 字距 9.8bp，共 16bp * 3 + 9.8bp * 2 = 67.5bp
-    \thu@stretch{67.6bp}{#1}%
-    \hspace{9.8bp}%
-    % 字距 6bp
-    \begingroup
-      \renewcommand\CJKglue{\hspace{9.8bp}}%
-      #2%
-    \endgroup
-  \else
-    \thu@pad{3cm}{\thu@stretch{4em}{#1}}%
-    \thu@stretch{3em}{#2}%
-  \fi
+  \thu@pad{3cm}{\thu@stretch{4em}{#1}}%
+  \thu@stretch{3em}{#2}%
 }
 \newcommand\thu@name@title[1]{%
   \setcounter{thu@csl@count}{0}%
@@ -2533,7 +2650,7 @@
   \thu@pdfbookmark{-1}{\thu@title}%
   \thu@titlepage
   \ifthu@include@spine@true
-    \thu@spine
+    \spine
   \fi
   \ifthu@degree@graduate
     \ifthu@thesis@type@thesis
@@ -2546,38 +2663,23 @@
 \newcommand\thu@titlepage{%
   \thusetup{language = chinese}%
   \ifthu@degree@graduate
+    % 研究生
     \ifthu@thesis@type@thesis
-      \ifthu@degree@type@academic
-        \ifthu@degree@doctor
-          \thu@titlepage@doctor@academic
-        \else
-          \thu@titlepage@master@academic
-        \fi
-      \else
-        \ifthu@degree@doctor
-          \thu@titlepage@doctor@professional
-        \else
-          \ifx\thu@professional@field\@empty
-            \ifx\thu@engineering@field\@empty
-              \thu@titlepage@master@professional@without@field
-            \else
-              \thu@titlepage@master@professional@with@field
-            \fi
-          \else
-            \thu@titlepage@master@professional@with@field
-          \fi
-        \fi
-      \fi
+      % 学位论文
+      \thu@titlepage@thesis
     \else
       \ifthu@thesis@type@proposal
+        % 选题报告
         \thu@titlepage@proposal
       \fi
     \fi
   \else
     \ifthu@degree@bachelor
+      % 本科生
       \thu@titlepage@bachelor
     \else
       \ifthu@degree@postdoc
+        % 博后
         \thu@cover@postdoc
         \cleardoublepage
         \thu@titlepage@postdoc
@@ -2586,7 +2688,7 @@
   \fi
   \thu@reset@main@language
 }
-\newcommand\thu@titlepage@doctor@academic{%
+\newcommand\thu@titlepage@thesis{%
   \newgeometry{
     top     = 2cm,
     bottom  = 6cm,
@@ -2614,202 +2716,21 @@
       \vskip -9.2pt%
     \fi
     \vskip 24.1pt%
-    \thu@titlepage@degree\par
+    \thu@title@page@degree@category\par
     \vfill
-    \parbox[t][7.25cm][t]{\textwidth}{%
-      \fangsong\fontsize{16bp}{31.2bp}\selectfont
-      \thu@titlepage@info
-    }\par
-    \parbox[t][1.03cm][t]{\textwidth}{\centering\thu@titlepage@date}\par
-  \endgroup
-  \clearpage
-  \restoregeometry
-}
-\newcommand\thu@titlepage@doctor@professional{%
-  \newgeometry{
-    top     = 2cm,
-    bottom  = 6cm,
-    hmargin = 3.5cm,
-  }%
-  \thispagestyle{empty}%
-  \null\vskip 0.45cm%
-  \begingroup
-    \centering
-    \parbox[t][1.52cm][t]{\textwidth}{%
-      \hskip -0.69cm%
-      \thu@titlepage@secret
-    }\par
-    \vskip 1.5cm%
-    \begingroup
-      % 1.21 倍行距，无网格
-      \sffamily\fontsize{26bp}{40.9bp}\selectfont
-      \thu@title\par
-    \endgroup
-    \ifthu@main@language@english
-      \vskip 5.4pt%
-      \begingroup
-        \sffamily\bfseries\fontsize{20bp}{31.2bp}\selectfont
-        \thu@title@en\par
-      \endgroup
-      \vskip -9.2pt%
-    \fi
-    \vskip 25.5pt%
-    \thu@titlepage@degree
-    \vfill
-    \parbox[b][5.24cm][b]{\textwidth}{%
-      \fangsong\fontsize{16bp}{1cm}\selectfont
-      \thu@titlepage@info
-    }\par
-    \vskip 2.22cm%
-    \parbox[t][1.0cm][t]{\textwidth}{\centering\thu@titlepage@date}\par
-  \endgroup
-  \clearpage
-  \restoregeometry
-}
-\newcommand\thu@titlepage@master@academic{%
-  \newgeometry{
-    top     = 2cm,
-    bottom  = 6cm,
-    hmargin = 3.5cm,
-  }%
-  \thispagestyle{empty}%
-  \null\vskip 10bp%
-  \begingroup
-    \centering
-    \parbox[t][55bp][t]{\textwidth}{%
-      \hskip -23bp%
-      \thu@titlepage@secret
-    }\par
-    \vskip 34pt%
-    \begingroup
-      % 1.21 倍行距
-      \sffamily\fontsize{26bp}{40.898bp}\selectfont
-      \thu@title\par
-    \endgroup
-    \ifthu@main@language@english
-      \vskip 5.4pt%
-      \begingroup
-        \sffamily\bfseries\fontsize{20bp}{31.2bp}\selectfont
-        \thu@title@en\par
-      \endgroup
-      \vskip -9.2pt%
-    \fi
-    \vskip 18pt%
-    \thu@titlepage@degree\par
-    \vfill
-    \parbox[t][7.05cm][t]{\textwidth}{%
-      % 表格行高 1cm = 28.35bp
-      \fangsong\fontsize{16bp}{28.35bp}\selectfont
-      \thu@titlepage@info
-    }\par
-    \parbox[t][37bp][t]{\textwidth}{\centering\thu@titlepage@date}\par
-  \endgroup
-  \clearpage
-  \restoregeometry
-}
-\newcommand\thu@titlepage@master@professional@without@field{%
-  \newgeometry{
-    top     = 2cm,
-    bottom  = 6cm,
-    hmargin = 3.5cm,
-  }%
-  \thispagestyle{empty}%
-  \null\vskip 15bp%
-  \begingroup
-    \centering
-    \parbox[t][41bp][t]{\textwidth}{%
-      \hskip -23bp%
-      \thu@titlepage@secret
-    }\par
-    \vskip 1.5cm%
-    \begingroup
-      % 1.21 倍行距，无网格
-      \sffamily\fontsize{26bp}{40.9bp}\selectfont
-      \thu@title\par
-    \endgroup
-    \ifthu@main@language@english
-      \vskip 5.4pt%
-      \begingroup
-        \sffamily\bfseries\fontsize{20bp}{31.2bp}\selectfont
-        \thu@title@en\par
-      \endgroup
-      \vskip -9.2pt%
-    \fi
-    \vskip 25.5pt%
-    \thu@titlepage@degree
-    \vfill
-    \parbox[b][5.24cm][b]{\textwidth}{%
-      \fangsong\fontsize{16bp}{1cm}\selectfont
-      \thu@titlepage@info
-    }\par
-    \vskip 2.22cm%
-    \parbox[t][35.5bp][t]{\textwidth}{\centering\thu@titlepage@date}\par
-  \endgroup
-  \clearpage
-  \restoregeometry
-}
-\newcommand\thu@titlepage@master@professional@with@field{%
-  \newgeometry{
-    top     = 2cm,
-    bottom  = 6cm,
-    hmargin = 3.5cm,
-  }%
-  \thispagestyle{empty}%
-  \null\vskip 10bp%
-  \begingroup
-    \centering
-    \parbox[t][46bp][t]{\textwidth}{%
-      \hskip -23bp%
-      \thu@titlepage@secret
-    }\par
-    \vskip 1.5cm%
-    \begingroup
-      % 1.21 倍行距，无网格
-      \sffamily\fontsize{26bp}{40.9bp}\selectfont
-      \thu@title\par
-    \endgroup
-    \ifthu@main@language@english
-      \vskip 5.4pt%
-      \begingroup
-        \sffamily\bfseries\fontsize{20bp}{31.2bp}\selectfont
-        \thu@title@en\par
-      \endgroup
-      \vskip -9.2pt%
-    \fi
-    \vskip 25.5pt%
-    \thu@titlepage@degree
-    \vskip 119bp%
-    \parbox[b][5.24cm][b]{\textwidth}{%
-      \fangsong\fontsize{16bp}{31bp}\selectfont
-      \renewcommand\thu@info@item@format[2]{%
-        \begingroup
-          \renewcommand\CJKglue{\hspace{##1}}%
-          ##2%
-        \endgroup
-      }%
-      \renewcommand\thu@name@title@format[2]{%
-        % 字距 9bp，共 16bp * 3 + 9bp * 2 = 66bp
-        \thu@stretch{66bp}{##1}%
-        \hspace{22bp}%
-        % 字距 6bp
-        \begingroup
-          \renewcommand\CJKglue{\hspace{16bp}}%
-          ##2%
-        \endgroup
-      }%
-      \thu@titlepage@info@tabular{65bp}{86.5bp}{81bp}{30.5bp}{%
-        \thu@info@item{培养单位}{\thu@info@item@format{1bp}}{\thu@department}%
-        \thu@info@item{专业领域}{\thu@info@item@format{2bp}}{\thu@professional@field}%
-        \thu@info@item{工程领域}{\thu@info@item@format{2bp}}{\thu@engineering@field}%
-        \thu@info@item{申请人}{\thu@name@title}{\thu@author}%
-        \thu@info@item{学号}{}{\thu@student@id}%
-        \thu@info@item{指导教师}{\thu@name@title}{\thu@supervisor}%
-        \thu@info@item{副指导教师}{\thu@name@title}{\thu@associate@supervisor}%
-        \thu@info@item{联合指导教师}{\thu@name@title}{\thu@co@supervisor}%
+    \ifthu@degree@type@academic
+      \parbox[t][7.25cm][t]{\textwidth}{%
+        \fangsong\fontsize{16bp}{31.2bp}\selectfont
+        \thu@titlepage@info
       }\par
-    }\par
-    \vfill
-    \parbox[t][33.5bp][t]{\textwidth}{\centering\thu@titlepage@date}\par
+    \else
+      \parbox[t][5.25cm][b]{\textwidth}{%
+        \fangsong\fontsize{16bp}{31.2bp}\selectfont
+        \thu@titlepage@info
+      }\par
+      \vskip 62pt%
+    \fi
+    \parbox[t][1.03cm][t]{\textwidth}{\centering\thu@titlepage@date}\par
   \endgroup
   \clearpage
   \restoregeometry
@@ -2832,7 +2753,7 @@
       \thu@title\par
     }%
     \vskip 0.85cm%
-    \thu@titlepage@degree
+    \thu@title@page@degree@category
     \vfill
     \parbox[t][8.5cm][t]{\textwidth}{%
       \centering
@@ -2867,9 +2788,9 @@
     \thu@secret@level\symbol{"2605}\makebox[3em][c]{\thu@secret@year}年%
   \fi\par
 }
-\newcommand\thu@titlepage@degree{%
+\newcommand\thu@title@page@degree@category{%
   \begingroup
-    \xiaoer
+    \fontsize{16bp}{22bp}\selectfont
     \ifLuaTeX
       \fontspec{\CJK@family}%
       \ltjsetparameter{kanjiskip = {1bp}}%
@@ -2878,14 +2799,14 @@
       \renewcommand\CJKglue{\hspace{1bp}}%
     \fi
     \ifthu@thesis@type@thesis
-      (申请苏州大学\thu@degree@category
+      (申请清华大学\thu@degree@category
       \ifthu@degree@type@professional
         专业%
       \fi
       学位论文)%
     \else
       \ifthu@thesis@type@proposal
-        (苏州大学%
+        (清华大学%
         \ifthu@degree@doctor
           博士%
         \else
@@ -2900,27 +2821,21 @@
   \endgroup
 }
 \newcommand\thu@titlepage@info{%
-  \ifthu@degree@doctor
+  \thu@titlepage@info@tabular{2.3cm}{2.85cm}{2.75cm}{0.77cm}{%
+    \thu@info@item{培养单位}{}{\thu@department}%
     \ifthu@degree@type@academic
-      \thu@titlepage@info@doctor@academic
+      \thu@info@item{学科}{}{\thu@discipline}%
+      \thu@info@item{研究生}{\thu@name@title}{\thu@author}%
     \else
-      \thu@titlepage@info@doctor@professional
+      \thu@info@item{专业领域}{}{\thu@professional@field}%
+      \thu@info@item{工程领域}{}{\thu@engineering@field}%
+      \thu@info@item{申请人}{\thu@name@title}{\thu@author}%
     \fi
-  \else
-    \ifthu@degree@type@academic
-      \thu@titlepage@info@master@academic
-    \else
-      \ifx\thu@professional@field\@empty
-        \ifx\thu@engineering@field\@empty
-          \thu@titlepage@info@master@professional@without@field
-        \else
-          \thu@titlepage@info@master@professional@with@field
-        \fi
-      \else
-        \thu@titlepage@info@master@professional@with@field
-      \fi
-    \fi
-  \fi
+    \thu@info@item{学号}{}{\thu@student@id}%
+    \thu@info@item{指导教师}{\thu@name@title}{\thu@supervisor}%
+    \thu@info@item{副指导教师}{\thu@name@title}{\thu@associate@supervisor}%
+    \thu@info@item{联合指导教师}{\thu@name@title}{\thu@co@supervisor}%
+  }\par
 }
 \newcommand\thu@titlepage@info@tabular[5]{%
   \def\thu@info@item##1##2##3{%
@@ -2935,83 +2850,6 @@
     \renewcommand\arraystretch{1}%
     #5%
   \end{tabular}%
-}
-\newcommand\thu@info@item@format[1]{#1}
-\newcommand\thu@titlepage@info@doctor@academic{%
-  \thu@titlepage@info@tabular{2.3cm}{2.85cm}{2.75cm}{0.77cm}{%
-    \thu@info@item{培养单位}{}{\thu@department}%
-    \thu@info@item{学科}{}{\thu@discipline}%
-    \thu@info@item{研究生}{\thu@name@title}{\thu@author}%
-    \thu@info@item{学号}{}{\thu@student@id}%
-    \thu@info@item{指导教师}{\thu@name@title}{\thu@supervisor}%
-    \thu@info@item{副指导教师}{\thu@name@title}{\thu@associate@supervisor}%
-    \thu@info@item{联合导师}{\thu@name@title}{\thu@co@supervisor}%
-  }\par
-}
-\newcommand\thu@titlepage@info@doctor@professional{%
-  \thu@titlepage@info@tabular{2.3cm}{3.1cm}{5em}{1.42cm}{%
-    \thu@info@item{培养单位}{}{{\thu@department}}%
-    \thu@info@item{申请人}{\thu@name@title}{\thu@author}%
-    \thu@info@item{学号}{}{\thu@student@id}%
-    \thu@info@item{指导教师}{\thu@name@title}{\thu@supervisor}%
-    \thu@info@item{副指导教师}{\thu@name@title}{\thu@associate@supervisor}%
-    \thu@info@item{联合指导教师}{\thu@name@title}{\thu@co@supervisor}%
-  }\par
-}
-\newcommand\thu@titlepage@info@master@academic{%
-  \renewcommand\thu@info@item@format[2]{%
-    \begingroup
-      \renewcommand\CJKglue{\hspace{##1}}%
-      ##2%
-    \endgroup
-  }
-  \renewcommand\thu@name@title@format[2]{%
-    % 字距 9.8bp，共 16bp * 3 + 9.8bp * 2 = 67.5bp
-    \thu@stretch{67.6bp}{##1}%
-    \hspace{9.8bp}%
-    % 字距 6bp
-    \begingroup
-      \renewcommand\CJKglue{\hspace{6bp}}%
-      ##2%
-    \endgroup
-  }%
-  \thu@titlepage@info@tabular{58bp}{3.59cm}{5.5em}{0.82cm}{%
-    \thu@info@item{培养单位}{\thu@info@item@format{1bp}}{\thu@department}%
-    \thu@info@item{学科}{\thu@info@item@format{2bp}}{\thu@discipline}%
-    \thu@info@item{研究生}{\thu@name@title}{\thu@author}%
-    \thu@info@item{学号}{}{\thu@student@id}%
-    \thu@info@item{指导教师}{\thu@name@title}{\thu@supervisor}%
-    \thu@info@item{副指导教师}{\thu@name@title}{\thu@associate@supervisor}%
-    \thu@info@item{联合指导教师}{\thu@name@title}{\thu@co@supervisor}%
-  }\par
-}
-\newcommand\thu@titlepage@info@master@professional@without@field{%
-  \renewcommand\thu@info@item@format[2]{%
-    \begingroup
-      \renewcommand\CJKglue{\hspace{##1}}%
-      ##2%
-    \endgroup
-  }
-  \renewcommand\thu@name@title@format[2]{%
-    % 字距 9.8bp，共 16bp * 3 + 9.8bp * 2 = 67.5bp
-    \thu@stretch{67.6bp}{##1}%
-    \hspace{9.8bp}%
-    % 字距 6bp
-    \begingroup
-      \renewcommand\CJKglue{\hspace{6bp}}%
-      ##2%
-    \endgroup
-  }%
-  \thu@titlepage@info@tabular{58bp}{3.28cm}{5em}{1.52cm}{%
-    \thu@info@item{培养单位}{\thu@info@item@format{1bp}}{\thu@department}%
-    \thu@info@item{申请人}{\thu@name@title}{\thu@author}%
-    \thu@info@item{学号}{}{\thu@student@id}%
-    \thu@info@item{指导教师}{\thu@name@title}{\thu@supervisor}%
-    \thu@info@item{副指导教师}{\thu@name@title}{\thu@associate@supervisor}%
-    \thu@info@item{联合指导教师}{\thu@name@title}{\thu@co@supervisor}%
-  }\par
-}
-\newcommand\thu@titlepage@info@master@professional@with@field{%
 }
 \newcommand\thu@titlepage@date{%
   \begingroup
@@ -3060,6 +2898,7 @@
     {\sffamily\bfseries\thu@author@en\par}%
     \vskip 0.18cm%
     \parbox[t][3.0cm][t]{\textwidth}{%
+      \centering
       \xiaosan[2.1]%
       \thu@titlepage@en@supervisor
     }\par
@@ -3088,6 +2927,7 @@
       \vskip 1.1cm%
     \fi
     \parbox[t][3.37cm][t]{\textwidth}{%
+      \centering
       \xiaosan[1.82]%
       \thu@titlepage@en@supervisor
     }\par
@@ -3111,7 +2951,7 @@
 }
 \newcommand\thu@titlepage@en@degree{%
   \thu@thesis@name@en{} submitted to\par
-  {\bfseries Soochow University\par}%
+  {\bfseries Soochow University\par}%%% TODO 此处被更改
   in partial fulfillment of the requirement\par
   for the
   \ifthu@degree@type@professional
@@ -3121,7 +2961,6 @@
   {\sffamily\bfseries\thu@degree@category@en\par}%
 }
 \newcommand\thu@titlepage@en@supervisor{%
-  \hspace{1.27cm}%
   \begin{tabular}{r@{\makebox[20.5bp][l]{\hspace{2bp}:}}l}%
     \renewcommand\arraystretch{1}%
     \thu@thesis@name@en{} Supervisor & \thu@supervisor@en \\
@@ -3158,9 +2997,13 @@
   \vfill
   \begingroup
     \centering
-    \includegraphics{suda.ps}%
+    \includegraphics{suda.ps}%%% TODO此处被更改
     \vskip 0.94cm%
-    {\sffamily\bfseries\xiaochu\ziju{0.5}综合论文训练\par}%
+    \ifthu@thesis@type@proposal
+      {\sffamily\bfseries\xiaochu\ziju{0.5}综合论文训练\\开题报告\par}%
+    \else
+      {\sffamily\bfseries\xiaochu\ziju{0.5}综合论文训练\par}%
+    \fi
   \endgroup
   \vskip 1.8cm%
   \begingroup
@@ -3454,6 +3297,7 @@
   }%
   \expandafter\comma@parse\expandafter{#1}{\thu@clist@processor}%
 }
+%%% TODO：以下被额外添加进系统
 \newenvironment{yingyan}{
   \ifthu@degree@bachelor
     \cleardoublepage
@@ -3469,24 +3313,23 @@
       }%
     \thu@chapter*{\thu@yingyan@name}%
 }{}
+%%% TODO以上被额外添加进系统
 \newenvironment{abstract}{%
   \ifthu@degree@bachelor
     \cleardoublepage
   \fi
   \thusetup{language = chinese}%
   \ifthu@degree@graduate
-    \addvspace{35.1bp}
-    \chapter*{\centering\sffamily\zititime\fontsize{18bp}{35.1bp}\selectfont{\thu@title}}
-    \centerline{\centering\sffamily\zititime\fontsize{15bp}{29.25bp}\selectfont{\thu@abstract@name}}
-      \addcontentsline{toc}{chapter}{\thu@abstract@name}
+    \begingroup
+      \ifthu@main@language@english
+        \ctexset{%
+          chapter/format = \centering\sffamily\fontsize{16bp}{20bp}\selectfont,
+        }%
+      \fi
+      \thu@chapter*{\thu@abstract@name}%
+    \endgroup
   \else
-    \ctexset{%
-      chapter = {
-        format     = \centering\sffamily\zititime\fontsize{18bp}{24bp}\selectfont,
-        aftername  = \quad,
-      },
-      }%
-    \thu@chapter*{\thu@abstract@name}%
+    \thu@chapter*[]{\thu@abstract@name}%
   \fi
 }{%
   \par
@@ -3499,12 +3342,6 @@
   \fi
   \thu@clist@use{\thu@keywords}{；}%
   \gdef\thu@keywords{}%
-  \ifthu@degree@graduate
-    \par
-    \null\par
-    \rightline{\rmfamily\fontsize{12bp}{23.4bp}\selectfont{作~~~~者：\thu@author}}
-    \rightline{\rmfamily\fontsize{12bp}{23.4bp}\selectfont{指导老师：\thu@supervisor}}
-  \fi
   \ifthu@degree@bachelor
     \cleardoublepage
   \fi
@@ -3516,18 +3353,9 @@
   \fi
   \thusetup{language = english}%
   \ifthu@degree@graduate
-    \addvspace{35.1bp}
-    \chapter*{\centering\sffamily\zititime\fontsize{18bp}{35.1bp}\selectfont{\thu@title@en}}
-    \centerline{\centering\sffamily\zititime\fontsize{15bp}{29.25bp}\selectfont{\thu@abstract@name@en}}
-    \addcontentsline{toc}{chapter}{\thu@abstract@name@en}
-  \else
-      \ctexset{%
-      chapter = {
-        format     = \centering\sffamily\zititime\fontsize{18bp}{23.4bp}\selectfont,
-        aftername  = \quad,
-      },
-      }%
     \thu@chapter*{\thu@abstract@name@en}%
+  \else
+    \thu@chapter*[]{\thu@abstract@name@en}%
   \fi
 }{%
   \par
@@ -3537,12 +3365,6 @@
   \fi
   \textbf{Keywords:}\space
   \thu@clist@use{\thu@keywords@en}{; }%
-  \ifthu@degree@graduate
-    \par
-    \null\par
-    \rightline{\rmfamily\fontsize{12bp}{23.4bp}\selectfont{Written by: \thu@author@en}}
-    \rightline{\rmfamily\fontsize{12bp}{23.4bp}\selectfont{Supervised by: \thu@supervisor@en}}
-  \fi
   \ifthu@degree@graduate
     \vspace*{\stretch{1}}%
   \fi
@@ -3790,6 +3612,7 @@
   \thu@option@hook{cite-style}{\@nameuse{bibstyle@\thu@cite@style}}
   \@namedef{bibstyle@thuthesis-numeric}{\citestyle{super}}
   \@namedef{bibstyle@thuthesis-author-year}{\citestyle{author-year}}
+  \@namedef{bibstyle@cell}{\citestyle{author-year}}
   \@namedef{bibstyle@thuthesis-bachelor}{\citestyle{super}}
   \renewcommand\NAT@citesuper[3]{%
     \ifNAT@swa
@@ -4164,54 +3987,116 @@
   }%
 }
 \newcommand\thu@end@appendix@ref@section{}
+\AtBeginOfPackageFile*{bibunits}{
+  \def\bibliography#1{%
+    \if@filesw
+      \immediate\write\@auxout{\string\bibdata{\zap@space#1 \@empty}}%
+      \immediate\write\@auxout{\string\gdef\string\bu@bibdata{#1}}%
+    \fi
+    \@input@{\jobname.bbl}%
+    \gdef\bu@bibdata{#1}%
+  }
+  \def\bibliographystyle#1{%
+    \ifx\@begindocumenthook\@undefined\else
+      \expandafter\AtBeginDocument
+    \fi
+      {\if@filesw
+        \immediate\write\@auxout{\string\bibstyle{#1}}%
+        \immediate\write\@auxout{\string\gdef\string\bu@bibstyle{#1}}%
+      \fi}%
+      \gdef\bu@bibstyle{#1}%
+  }
+}
 \AtEndOfPackageFile*{bibunits}{
-  \ifthu@degree@graduate
-    \newcommand\thu@appendix@bib@num@format[1]{[\@Alph\c@chapter.#1]\hfill}
-    \g@addto@macro\appendix{%
-      \renewcommand\@bibunitname{\jobname-appendix-\@alph\c@chapter}%
-      \bibliographyunit[\chapter]%
+  \def\@startbibunit{%
+    \global\let\@startbibunitorrelax\relax
+    \global\let\@finishbibunit\@finishstartedbibunit
+    \global\advance\@bibunitauxcnt 1
+    \if@filesw
+      {\endlinechar-1
+      \makeatletter
+      \@input{\@bibunitname.aux}}%
+      \immediate\openout\@bibunitaux\@bibunitname.aux
+      \immediate\write\@bibunitaux{\string\bibstyle{\@localbibstyle}}%
+    \fi
+  }
+  \def\bu@bibliography#1{%
+    \putbib[#1]%
+  }
+  \def\bu@bibliographystyle#1{%
+    \if@filesw
+      \immediate\write\@bibunitaux{\string\gdef\string\@localbibstyle{#1}}%
+    \fi
+    \gdef\@localbibstyle{#1}%
+  }
+  \providecommand\printbibliography{\putbib\relax}%
+  \g@addto@macro\appendix{%
+    \renewcommand\@bibunitname{\jobname-appendix-\@alph\c@chapter}%
+    \bibliographyunit[\chapter]%
+    \renewcommand\bibsection{%
+      \ctexset{section/numbering = false}%
+      \section{\bibname}%
+      \ctexset{section/numbering = true}%
+    }%
+    \ifthu@degree@graduate
       \renewcommand\citenumfont{\@Alph\c@chapter.}%
-      \renewcommand\bibsection{%
-        \ctexset{section/numbering = false}%
-        \section{\bibname}%
-        \ctexset{section/numbering = true}%
-      }%
       \renewcommand\@extra@binfo{@-\@alph\c@chapter}%
       \renewcommand\@extra@b@citeb{@-\@alph\c@chapter}%
-      \let\bibnumfmt\thu@appendix@bib@num@format
-      \let\bibliographystyle\defaultbibliographystyle
-      \let\bibliography\thu@appendix@bibliography
-    }
-    \renewcommand\thu@end@appendix@ref@section{%
-      \bibliographyunit\relax
-    }
-    \providecommand\printbibliography{\putbib\relax}%
-    \AtEndDocument{\thu@end@appendix@ref@section}
-    % \let\@xtestdef\@gobbletwo  % This doesn't work
-    \def\bibunits@rerun@warning{\relax}
-  \fi
+      \renewcommand\bibnumfmt[1]{[\@Alph\c@chapter.#1]\hfill}%
+    \fi
+  }
+  \renewcommand\thu@end@appendix@ref@section{%
+    \bibliographyunit\relax
+  }
+  \AtEndDocument{\thu@end@appendix@ref@section}
+  \renewcommand\thu@set@survey@bibheading{%
+    \renewcommand\bibsection{%
+      \par
+      \vskip 20bp%
+      \thu@pdfbookmark{1}{\bibname}%
+      \begingroup
+        \centering
+        \xiaosi[1.667]\bibname\par
+      \endgroup
+      \vskip 6bp%
+    }%
+  }%
+  % \let\@xtestdef\@gobbletwo  % This doesn't work
+  \def\bibunits@rerun@warning{\relax}
 }
 \PassOptionsToPackage{defernumbers = true}{biblatex}
 \AtEndOfPackageFile*{biblatex}{
-  \ifthu@degree@graduate
-    \DeclareRefcontext{appendix}{}
-    \g@addto@macro\appendix{%
-      \pretocmd\chapter{%
-        \newrefsection
+  \DeclareRefcontext{appendix}{}
+  \g@addto@macro\appendix{%
+    \pretocmd\chapter{%
+      \newrefsection
+      \ifthu@degree@bachelor\else
         \@tempcnta=\c@chapter
         \advance\@tempcnta\@ne
         \newrefcontext[labelprefix = {\@Alph\@tempcnta.}]{appendix}%
-      }{}{\thu@patch@error{\chapter}}%
-      \defbibheading{bibliography}[\bibname]{%
-        \ctexset{section/numbering = false}%
-        \section{#1}%
-        \ctexset{section/numbering = true}%
-      }%
-    }
-    % \renewcommand\thu@end@appendix@ref@section{%
-    %   \endrefsection
-    % }
-  \fi
+      \fi
+    }{}{\thu@patch@error{\chapter}}%
+    \defbibheading{bibliography}[\bibname]{%
+      \ctexset{section/numbering = false}%
+      \section{#1}%
+      \ctexset{section/numbering = true}%
+    }%
+  }
+  \renewcommand\thu@set@survey@bibheading{%
+    \defbibheading{bibliography}[\bibname]{%
+      \par
+      \vskip 20bp%
+      \thu@pdfbookmark{1}{\bibname}%
+      \begingroup
+        \centering
+        \xiaosi[1.667]##1\par
+      \endgroup
+      \vskip 6bp%
+    }%
+  }%
+  \def\bibliographystyle#1{%
+    \thu@warning{'bibliographystyle' invalid for 'biblatex'.}%
+  }
 }
 \@ifpackagelater{titletoc}{2019/07/14}{
   \newcommand\thu@print@contents[5]{%
@@ -4235,18 +4120,14 @@
     \vskip 20bp%
   }%
   \let\appendix\thu@appendix@appendix
+  \thu@set@survey@bibheading
   \renewcommand\bibname{参考文献}%
-  \let\bibsection\thu@appendix@bibsection
-  \renewcommand\@bibunitname{\jobname-survey}%
-  \let\bibliographystyle\defaultbibliographystyle
-  \let\bibliography\thu@appendix@bibliography
-  \begin{bibunit}%
   \startcontents[survey]%
 }{%
   \stopcontents[survey]%
-  \end{bibunit}%
   \thu@reset@main@language % restore language
 }
+\newcommand\thu@set@appendix@bib@heading{}
 \newenvironment{translation}{%
   \chapter{外文资料的书面翻译}%
   \thusetup{language = chinese}%
@@ -4280,23 +4161,31 @@
       \section{\bibname}%
     \endgroup
   }%
-  \renewcommand\@bibunitname{\jobname-translation}%
-  \let\bibliographystyle\defaultbibliographystyle
-  \let\bibliography\thu@appendix@bibliography
-  \begin{bibunit}%
   \startcontents[translation]%
 }{%
   \stopcontents[translation]%
-  \end{bibunit}%
   \thu@reset@main@language % restore language
 }
-\newenvironment{translation-index}{%
-  \begin{bibunit}%
-    \renewcommand\@bibunitname{\jobname-index}%
-    \renewcommand\bibname{书面翻译对应的原文索引}%
-    \let\bibsection\thu@appendix@bibsection
-}{%
-  \end{bibunit}%
+\newenvironment{translation-index}{}{}
+\AtEndOfPackageFile*{bibunits}{
+  \renewenvironment{translation-index}{%
+    \begin{bibunit}%
+      \renewcommand\@bibunitname{\jobname-index}%
+      \renewcommand\bibname{书面翻译对应的原文索引}%
+      \thu@set@survey@bibheading
+  }{%
+    \end{bibunit}%
+  }
+}
+\AtEndOfPackageFile*{biblatex}{
+  \renewenvironment{translation-index}{%
+    \endrefsection
+    \begin{refsection}%
+      \renewcommand\bibname{书面翻译对应的原文索引}%
+      \thu@set@survey@bibheading
+  }{%
+    \end{refsection}%
+  }
 }
 \DeclareRobustCommand\thu@appendix@title[1]{\gdef\thu@appendix@@title{#1}}
 \newcommand\thu@appendix@maketitle{%
@@ -4326,17 +4215,7 @@
   \setcounter{subsection}{0}%
   \renewcommand\thesection{\thechapter.\@Alph\c@section}%
 }%
-\newcommand\thu@appendix@bibsection{%
-  \par
-  \vskip 20bp%
-  \thu@pdfbookmark{1}{\bibname}%
-  \begingroup
-    \centering
-    \xiaosi[1.667]\bibname\par
-  \endgroup
-  \vskip 6bp%
-}%
-\newcommand\thu@appendix@bibliography[1]{\putbib[#1]}
+\newcommand\thu@set@survey@bibheading{}
 \newenvironment{resume}{%
   \@mainmatterfalse
   \thu@end@appendix@ref@section
@@ -4489,7 +4368,7 @@
   \renewcommand\thu@phantomsection{%
     \phantomsection
   }
-  \pdfstringdefDisableCommands{
+  \pdfstringdefDisableCommands{%
     \let\\\relax
     \let\quad\relax
     \let\qquad\relax
@@ -4524,7 +4403,7 @@
       }%
     \fi
     \hypersetup{
-      pdfcreator={\sudathesis-v\version}}
+      pdfcreator={\sudathesis-v\version}}%%% TODO此处被更改
   }%
 }
 \AtEndOfPackageFile*{mathtools}{
@@ -4729,26 +4608,6 @@
   \endgroup
   \clearpage
   \restoregeometry
-}
-\newcommand\thu@input@spine{%
-  \IfFileExists{spine.pdf}{}{%
-    \immediate\write18{xelatex spine.tex}%
-    \IfFileExists{spine.pdf}{}{%
-      \thu@error{Cannot find file "spine.pdf". Compile "spine.tex" first, or enable shell escape}%
-    }%
-  }%
-  \includepdf[pages=1]{spine.pdf}%
-}
-\newcommand\thu@spine{%
-  \ifthu@cjk@font@fandol
-    \thu@input@spine
-  \else
-    \ifthu@cjk@font@noto
-      \thu@input@spine
-    \else
-      \spine
-    \fi
-  \fi
 }
 \DeclareRobustCommand\cs[1]{\texttt{\char`\\#1}}
 \DeclareRobustCommand\file{\nolinkurl}
