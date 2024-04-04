@@ -60,13 +60,15 @@
 
 \frontmatter
 %\newpage
-\pagestyle{cnfrontmatter}
-\input{contents/abstract_cn}
-\newpage
-\pagestyle{enfrontmatter}
-\input{contents/abstract_en}
-\newpage
-\pagestyle{plain}
+%\pagestyle{cnfrontmatter}
+%\input{contents/abstract_cn}
+%\newpage
+%\pagestyle{enfrontmatter}
+%\input{contents/abstract_en}
+%\newpage
+%\pagestyle{plain}
+%\frontmatter
+\input{contents/abstract.tex}
 % 目录
 \tableofcontents
 
@@ -87,11 +89,12 @@
 %\input{contents/chap03}
 %\input{contents/chap04}
 \input{contents/chapter1}
+%\input{contents/back.tex}
 \input{contents/chapter2}
 \input{contents/chapter3}
 \input{contents/chapter4}
 \input{contents/chapter5}
-\input{contents/chapter6}
+%\input{contents/chapter6}
 \input{contents/chapter7}
 %\chapter{测试}
 % 其他部分
@@ -123,10 +126,10 @@
 %\includepdf[addtotoc={1,chapter,1,文献综述,cc,2,section,2,测试,aa},pages={1,2,3}]{./figures/statement.pdf}
 
 % 本科生需要将附录放到声明之后，个人简历之前
-% \appendix
-% \input{contents/appendix-survey}       % 本科生：外文资料的调研阅读报告
-% \input{contents/appendix-translation}  % 本科生：外文资料的书面翻译
-% TODO！本科生启用appendix请勿启用参考文献section，会出现报错，硕博请自行评估是否需要来启用
+%\appendix
+%\input{contents/appendix-survey}       % 本科生：外文资料的调研阅读报告
+%\input{contents/appendix-translation}  % 本科生：外文资料的书面翻译
+
 % 下面是引入附录
 %\input{contents/appendix}
 
