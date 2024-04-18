@@ -1839,7 +1839,7 @@
 \newcommand\thu@put@parentheses[1]{%
   \ifthu@language@chinese
     \unskip
-    （#1）%
+    #1%
   \else
     (#1)%
   \fi
