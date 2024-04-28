@@ -2,12 +2,7 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/main/containers/ubuntu
 {
     "name": "BachelorThesis",
-    "image": "mcr.microsoft.com/devcontainers/base:debian",
-    "features": {
-        "ghcr.io/prulloac/devcontainer-features/latex:1": {
-            "scheme":"full"
-        }
-    },
+    "image": "shadowofgost/texlive-development:latest",
     "customizations": {
         "vscode": {
             "extensions": [
