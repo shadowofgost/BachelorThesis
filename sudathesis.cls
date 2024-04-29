@@ -3397,7 +3397,7 @@
         aftername  = \quad,
       },
       }%
-    %%% TODO以上为额外添加
+    %%% TODO:以上为额外添加
     \thu@chapter*[]{\thu@abstract@name@en}%
   \fi
 }{%
