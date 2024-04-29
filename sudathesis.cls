@@ -4,7 +4,7 @@
 %% @Description      :
 %% @Email            : shadowofgost@outlook.com
 %% @FilePath         : /sudathesis-soochow-university-latex-template/sudathesis.cls
-%% @LastTime         : 2024-04-05 10:13:32
+%% @LastTime         : 2024-04-28 15:58:03
 %% @LastAuthor       : Albert Wang
 %% @Software         : Vscode
 %% @ Copyright Notice : Copyright (c) 2023 Albert Wang 王子睿, All Rights Reserved.
@@ -1677,7 +1677,15 @@
       \else
         \xiaowu
       \fi
-      -\thepage-
+      \if@mainmatter
+        -\thepage-
+      \else
+        \ifthu@backmatter
+          -\thepage-
+        \else
+          \thepage
+        \fi
+      \fi
     }%
     \let\@mkboth\@gobbletwo
     \let\chaptermark\@gobble
@@ -1697,7 +1705,7 @@
       \xiaowu
       \rmfamily
       \ifthu@main@language@chinese
-        \ifthenelse{\equal{\leftmark}{Abstract}}{
+        \ifthenelse{\equal{\leftmark}{\thu@abstract@name@en}}{
           % 如果章节名称是 Abstract，则设英文
           \thu@title@en
         }{
@@ -1839,7 +1847,7 @@
 \newcommand\thu@put@parentheses[1]{%
   \ifthu@language@chinese
     \unskip
-    #1%
+    （#1）%
   \else
     (#1)%
   \fi
