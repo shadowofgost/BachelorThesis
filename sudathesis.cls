@@ -3,8 +3,8 @@
 %% @Time             : 2023-01-08 21:21:01
 %% @Description      :
 %% @Email            : shadowofgost@outlook.com
-%% @FilePath         : /sudathesis-soochow-university-latex-template/sudathesis.cls
-%% @LastTime         : 2024-04-28 15:58:03
+%% @FilePath         : /BachelorThesis/sudathesis.cls
+%% @LastTime         : 2024-05-18 09:10:05
 %% @LastAuthor       : Albert Wang
 %% @Software         : Vscode
 %% @ Copyright Notice : Copyright (c) 2023 Albert Wang 王子睿, All Rights Reserved.
@@ -1847,7 +1847,7 @@
 \newcommand\thu@put@parentheses[1]{%
   \ifthu@language@chinese
     \unskip
-    （#1）%
+    #1%
   \else
     (#1)%
   \fi
@@ -2070,16 +2070,19 @@
             number = \chinese{chapter},
           },
           section = {
+            format     = \centering\sffamily\zititime\fontsize{14bp}{27.3bp}\selectfont,
             name   = {第,节},
             number = \chinese{section},
           },
           subsection = {
             name   = {,、},
             number = \chinese{subsection},
+            aftername  = {},
           },
           subsubsection = {
             name   = {（,）},
             number = \chinese{subsubsection},
+            aftername  = {},
           },
         }%
       \fi
